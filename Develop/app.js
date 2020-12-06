@@ -11,8 +11,136 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+
+async function userPrompts() {
+    const userInput = await inquirer.prompt([
+        {
+            type: "input",
+            message: "Name",
+            name: "name"
+        },
+        {
+            type: "input",
+            message: "ID",
+            name: "id"
+        },
+        {
+            type: "input",
+            message: "Email",
+            name: "email"
+        },
+        {
+            type: "list",
+            message: "What is Your Role?",
+            name: "role",
+            choices: ["Manager", "Engineer", "Intern"]
+        }
+
+
+    ])
+    switch (userInput.role) {
+        case "Manager":
+            const officeNumberPrompt = await inquirer.prompt([
+
+                {
+                    type: "input",
+                    message: "Office Number",
+                    name: "officeNumber"
+                }
+            ])
+
+            return officeNumberPrompt.officeNumber
+    
+            
+        case "Engineer":
+            const githubPrompt = await inquirer.prompt([
+
+                {
+                    type: "input",
+                    message: "GitHub Username",
+                    name: "github"
+                }
+
+            ])
+
+            return githubPrompt.github
+
+        case "Intern":
+            const schoolPrompt = await inquirer.prompt([
+
+                {
+                    type: "input",
+                    message: "Current School",
+                    name: "school"
+                }
+
+            ])
+
+            return schoolPrompt.school
+
+        default:
+            console.log("Working")
+            return
+    }
+    
+    
+
+}
+
+
+
+// render(team);
+async function testy(){
+const team = [];
+let newTeamMember = await userPrompts();
+team.push(newTeamMember);
+console.log(team);
+}
+
+// userPrompts();
+testy();
+
+
+
+
+
+
+// async function makeDirectory(){
+//     fs.mkdir(OUTPUT_DIR);
+// }
+
+// const pumpOutHTML = async () => {
+//     try {
+//         // const renderHtml = render()
+//         generateTeam();
+//         await makeDirectory();
+//         // const teamContent = generateContent(answers);
+
+//         await fs.writeFile(outputPath);
+
+//         console.log('Successfully wrote to README.md');
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };
+
+// pumpOutHTML();
+
+
+
+
+
+
+
+// {
+//     type: "list",
+//         message: "Manager's Office Number",
+//             name: "officeNumber"
+// },
+
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
