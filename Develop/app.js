@@ -4,17 +4,20 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
+const util = require("util");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const { ADDRGETNETWORKPARAMS } = require("dns");
+
+// const writeFileAsync = util.promisify(fs.writeFile);
 
 
 
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
 
+// ASYNC FUNCTION TO GENERATE PROMPTS
 async function userPrompts() {
     const userInput = await inquirer.prompt([
         {
@@ -52,9 +55,10 @@ async function userPrompts() {
                 }
             ])
 
-            return officeNumberPrompt.officeNumber
-    
-            
+            let managerInfo = new Manager(userInput.name, userInput.id, userInput.email, officeNumberPrompt.officeNumber)
+            return managerInfo
+
+
         case "Engineer":
             const githubPrompt = await inquirer.prompt([
 
@@ -66,7 +70,9 @@ async function userPrompts() {
 
             ])
 
-            return githubPrompt.github
+            let engineerInfo = new Engineer(userInput.name, userInput.id, userInput.email, githubPrompt.github)
+            return engineerInfo
+
 
         case "Intern":
             const schoolPrompt = await inquirer.prompt([
@@ -79,33 +85,57 @@ async function userPrompts() {
 
             ])
 
-            return schoolPrompt.school
+            let internInfo = new Intern(userInput.name, userInput.id, userInput.email, schoolPrompt.school)
+            return internInfo
 
         default:
             console.log("Working")
             return
     }
-    
-    
+
+
 
 }
-
-
-
-// render(team);
-async function testy(){
 const team = [];
-let newTeamMember = await userPrompts();
-team.push(newTeamMember);
-console.log(team);
+const testy = async () => {
+    // const team = [];
+    let newTeamMember = await userPrompts();
+    team.push(newTeamMember);
+
+    inquirer
+        .prompt([
+        {
+            type: "confirm",
+            message: "Add More Team Members?",
+            name: "addTeam",
+        },
+        ]).then(function(response){
+            if(response.addTeam){
+                testy();
+            } else {
+                
+                render(team);
+                fs.writeFile(outputPath, render(team), (err) => {
+                    if (err) {
+                      console.log("Fail")
+                    }
+                    console.log("Yes! win!");
+                  });
+                
+            }
+        });
+
+
+    // await writeFileAsync(outputPath, team);
+    console.log(team)
 }
 
-// userPrompts();
+
 testy();
+// render(team);
 
 
-
-
+// New team members Yes or no. If yes loop the questions, if no render. 
 
 
 // async function makeDirectory(){
@@ -121,7 +151,7 @@ testy();
 
 //         await fs.writeFile(outputPath);
 
-//         console.log('Successfully wrote to README.md');
+//         console.log('');
 //     } catch (err) {
 //         console.log(err);
 //     }
@@ -142,7 +172,7 @@ testy();
 // },
 
 
-// After the user has input all employees desired, call the `render` function (required
+// After the user has input all team desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
 
