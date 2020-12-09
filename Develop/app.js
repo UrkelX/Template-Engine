@@ -4,17 +4,13 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
-const util = require("util");
+
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 const { ADDRGETNETWORKPARAMS } = require("dns");
-
-// const writeFileAsync = util.promisify(fs.writeFile);
-
-
 
 
 // ASYNC FUNCTION TO GENERATE PROMPTS
@@ -41,7 +37,6 @@ async function userPrompts() {
             name: "role",
             choices: ["Manager", "Engineer", "Intern"]
         }
-
 
     ])
     switch (userInput.role) {
@@ -93,8 +88,6 @@ async function userPrompts() {
             return
     }
 
-
-
 }
 const team = [];
 const testy = async () => {
@@ -104,25 +97,25 @@ const testy = async () => {
 
     inquirer
         .prompt([
-        {
-            type: "confirm",
-            message: "Add More Team Members?",
-            name: "addTeam",
-        },
-        ]).then(function(response){
-            if(response.addTeam){
+            {
+                type: "confirm",
+                message: "Add More Team Members?",
+                name: "addTeam",
+            },
+        ]).then(function (response) {
+            if (response.addTeam) {
                 testy();
             } else {
                 fs.mkdir(OUTPUT_DIR, function (error) { });
                 render(team);
                 fs.writeFile(outputPath, render(team), (err) => {
                     if (err) {
-                      console.log("Fail");
+                        console.log("Fail");
                     } else {
-                    console.log("Yes! win!");
+                        console.log("Yes! win!");
                     }
-                  });
-                
+                });
+
             }
         });
 
