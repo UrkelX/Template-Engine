@@ -113,7 +113,7 @@ const testy = async () => {
             if(response.addTeam){
                 testy();
             } else {
-                
+                fs.mkdir(OUTPUT_DIR, function (error) { });
                 render(team);
                 fs.writeFile(outputPath, render(team), (err) => {
                     if (err) {
