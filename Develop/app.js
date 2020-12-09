@@ -130,9 +130,6 @@ const testy = async () => {
 
 
 testy();
-// render(team);
-
-
 // New team members Yes or no. If yes loop the questions, if no render. 
 
 
