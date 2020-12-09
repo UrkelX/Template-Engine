@@ -117,17 +117,15 @@ const testy = async () => {
                 render(team);
                 fs.writeFile(outputPath, render(team), (err) => {
                     if (err) {
-                      console.log("Fail")
-                    }
+                      console.log("Fail");
+                    } else {
                     console.log("Yes! win!");
+                    }
                   });
                 
             }
         });
 
-
-    // await writeFileAsync(outputPath, team);
-    console.log(team)
 }
 
 
