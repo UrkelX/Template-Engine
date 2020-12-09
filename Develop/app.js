@@ -128,43 +128,7 @@ const testy = async () => {
 
 }
 
-
 testy();
-// New team members Yes or no. If yes loop the questions, if no render. 
-
-
-// async function makeDirectory(){
-//     fs.mkdir(OUTPUT_DIR);
-// }
-
-// const pumpOutHTML = async () => {
-//     try {
-//         // const renderHtml = render()
-//         generateTeam();
-//         await makeDirectory();
-//         // const teamContent = generateContent(answers);
-
-//         await fs.writeFile(outputPath);
-
-//         console.log('');
-//     } catch (err) {
-//         console.log(err);
-//     }
-// };
-
-// pumpOutHTML();
-
-
-
-
-
-
-
-// {
-//     type: "list",
-//         message: "Manager's Office Number",
-//             name: "officeNumber"
-// },
 
 
 // After the user has input all team desired, call the `render` function (required
